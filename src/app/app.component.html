@@ -1,0 +1,13 @@
+<mat-toolbar color="primary" class="toolbar">
+  <button mat-icon-button (click)="voltar()" *ngIf="podeVoltar()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="toolbar-title">Sistema de Cadastro de Animais</span>
+  <span class="spacer"></span>
+  <button mat-button routerLink="/list">
+    <mat-icon>pets</mat-icon>
+    Listagem
+  </button>
+</mat-toolbar>
+
+<router-outlet></router-outlet>

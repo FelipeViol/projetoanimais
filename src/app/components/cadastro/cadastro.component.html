@@ -1,0 +1,140 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Cadastro de Animais</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <!-- Seção de Dados do Animal -->
+        <div class="form-section">
+          <h3 class="section-title">Dados do Animal</h3>
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Nome do Animal</mat-label>
+              <input matInput formControlName="nome" placeholder="Digite o nome do animal">
+              <mat-error *ngIf="form.get('nome')?.hasError('required')">
+                Nome é obrigatório
+              </mat-error>
+              <mat-error *ngIf="form.get('nome')?.hasError('minlength')">
+                Nome deve ter no mínimo 3 caracteres
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Espécie</mat-label>
+              <mat-select formControlName="especie">
+                <mat-option *ngFor="let especie of especies" [value]="especie">
+                  {{especie}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('especie')?.hasError('required')">
+                Espécie é obrigatória
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Raça</mat-label>
+              <input matInput formControlName="raca" placeholder="Digite a raça">
+              <mat-error *ngIf="form.get('raca')?.hasError('required')">
+                Raça é obrigatória
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Idade</mat-label>
+              <input matInput type="number" formControlName="idade" placeholder="Idade em anos">
+              <mat-error *ngIf="form.get('idade')?.hasError('required')">
+                Idade é obrigatória
+              </mat-error>
+              <mat-error *ngIf="form.get('idade')?.hasError('min')">
+                Idade deve ser maior que zero
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Data de Nascimento</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="dataNascimento">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="form.get('dataNascimento')?.hasError('required')">
+                Data de nascimento é obrigatória
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Seção de Características -->
+        <div class="form-section">
+          <h3 class="section-title">Características</h3>
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Porte</mat-label>
+              <mat-select formControlName="porte">
+                <mat-option *ngFor="let porte of portes" [value]="porte">
+                  {{porte}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('porte')?.hasError('required')">
+                Porte é obrigatório
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Peso (kg)</mat-label>
+              <input matInput type="number" formControlName="peso" placeholder="0.00">
+              <mat-error *ngIf="form.get('peso')?.hasError('required')">
+                Peso é obrigatório
+              </mat-error>
+              <mat-error *ngIf="form.get('peso')?.hasError('min')">
+                Peso deve ser maior que zero
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field full-width">
+              <label class="radio-label">Sexo</label>
+              <mat-radio-group formControlName="sexo">
+                <mat-radio-button value="M">Macho</mat-radio-button>
+                <mat-radio-button value="F">Fêmea</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="form.get('sexo')?.hasError('required')">
+                Sexo é obrigatório
+              </mat-error>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <mat-checkbox formControlName="castrado">
+              Animal Castrado
+            </mat-checkbox>
+          </div>
+        </div>
+
+        <!-- Seção de Observações -->
+        <div class="form-section">
+          <h3 class="section-title">Observações</h3>
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Observações</mat-label>
+              <textarea matInput formControlName="observacoes" rows="3"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="button-container">
+          <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">
+            Salvar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
