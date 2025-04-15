@@ -5,6 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AnimalService } from '../../services/animal.service';
+
 
 @Component({
   selector: 'app-listagem',
@@ -24,17 +26,14 @@ export class ListagemComponent implements OnInit {
   displayedColumns: string[] = ['id', 'nome', 'especie', 'raca', 'idade', 'porte', 'sexo', 'castrado', 'acoes'];
   dataSource: any[] = [];
 
-  constructor() {}
+  constructor(private animalService: AnimalService) {}
 
   ngOnInit(): void {
     this.carregarDados();
   }
 
   carregarDados(): void {
-    const dados = localStorage.getItem('animais');
-    if (dados) {
-      this.dataSource = JSON.parse(dados);
-    }
+    this.dataSource = this.animalService.listarAnimais();
   }
 
   getStatusColor(castrado: boolean): string {

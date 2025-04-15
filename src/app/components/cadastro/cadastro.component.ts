@@ -12,6 +12,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { AnimalService } from '../../services/animal.service';
+
 
 @Component({
   selector: 'app-cadastro',
@@ -40,7 +42,8 @@ export class CadastroComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private animalService: AnimalService // <== Injeção do service
   ) {
     this.form = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
@@ -60,17 +63,12 @@ export class CadastroComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      const animal = this.form.value;
-      // Aqui você pode adicionar a lógica para salvar no backend
-      console.log('Dados do animal:', animal);
+      const novoAnimal = {
+        id: Date.now(), // gera um id único
+        ...this.form.value
+      };
 
-      // Adiciona à lista de animais
-      const animais = JSON.parse(localStorage.getItem('animais') || '[]');
-      animais.push({
-        id: animais.length + 1,
-        ...animal
-      });
-      localStorage.setItem('animais', JSON.stringify(animais));
+      this.animalService.adicionarAnimal(novoAnimal);
 
       this.snackBar.open('Animal cadastrado com sucesso!', 'Fechar', {
         duration: 3000
